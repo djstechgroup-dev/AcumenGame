@@ -32,43 +32,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TimeManagerScreen from './source/screens/TimeManagerScreen';
 import EventDetailScreen from './source/screens/EventDetailScreen';
-// import { createStackNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import configureStore from './source/store/configStore';
+const store = configureStore()
 const Stack = createNativeStackNavigator();
-// const RootStack = createStackNavigator(
-//   {
-//     Home: { screen: HomeScreen },
-//     PartyMemberScreen: { screen: PartyMemberScreen },
-//   },
-//   {
-//     initialRouteName: 'Home',
-//   }
-
-// );
-const Section = ({ children, title }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -78,17 +45,19 @@ const App = () => {
   };
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShown: false
-      }}>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='PartyMember' component={PartyMemberScreen} />
-        <Stack.Screen name='TimeManager' component={TimeManagerScreen} />
-        <Stack.Screen name='CombatCard' component={CombatCardsScreen} />
-        <Stack.Screen name='EventDetail' component={EventDetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{
+          headerShown: false
+        }}>
+          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='PartyMember' component={PartyMemberScreen} />
+          <Stack.Screen name='TimeManager' component={TimeManagerScreen} />
+          <Stack.Screen name='CombatCard' component={CombatCardsScreen} />
+          <Stack.Screen name='EventDetail' component={EventDetailScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+     </Provider>
   )
 };
 

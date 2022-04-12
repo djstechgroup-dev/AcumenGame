@@ -79,6 +79,8 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    bundleInDebug: true,
+    devDisabledInDebug: true,
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -218,6 +220,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('acumen_release.keystore')
+            storePassword 'G71C000B4110'
+            keyAlias 'ac_release'
+            keyPassword 'G71C000B4110'
+        }
     }
     buildTypes {
         debug {
@@ -226,7 +234,8 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
